@@ -1,56 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Bucket
-   uuid = "F18D91B1-AE4C-45BD-B59A-7E327AEBA180"
-   type = "1"
-   version = "2.0">
-   <Breakpoints>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7004DD00-A068-46FF-B3D8-E22A9D2E68DB"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "okgo/TTY.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "run()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "FB90C23E-ED28-4CBA-A870-60D374E30558"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "okgo/TTY.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
-            landmarkName = "run()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A8791077-8A94-4311-9075-DDCAFB12B389"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "okgo/TTY.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
-            landmarkName = "run()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-   </Breakpoints>
+<?xml version="1.0" encoding="utf-8"?>
+<Bucket uuid="F18D91B1-AE4C-45BD-B59A-7E327AEBA180" type="1"
+version="2.0">
+  <Breakpoints>
+    <BreakpointProxy BreakpointExtensionID="Xcode.Breakpoint.FileBreakpoint">
+
+      <BreakpointContent uuid="7004DD00-A068-46FF-B3D8-E22A9D2E68DB"
+      shouldBeEnabled="No" ignoreCount="0"
+      continueAfterRunningActions="No"
+      filePath="ad-term-cli/TTY.swift"
+      startingColumnNumber="9223372036854775807"
+      endingColumnNumber="9223372036854775807"
+      startingLineNumber="42" endingLineNumber="42"
+      landmarkName="run()" landmarkType="7"></BreakpointContent>
+    </BreakpointProxy>
+    <BreakpointProxy BreakpointExtensionID="Xcode.Breakpoint.FileBreakpoint">
+
+      <BreakpointContent uuid="FB90C23E-ED28-4CBA-A870-60D374E30558"
+      shouldBeEnabled="No" ignoreCount="0"
+      continueAfterRunningActions="No"
+      filePath="ad-term-cli/TTY.swift"
+      startingColumnNumber="9223372036854775807"
+      endingColumnNumber="9223372036854775807"
+      startingLineNumber="43" endingLineNumber="43"
+      landmarkName="run()" landmarkType="7"></BreakpointContent>
+    </BreakpointProxy>
+    <BreakpointProxy BreakpointExtensionID="Xcode.Breakpoint.FileBreakpoint">
+
+      <BreakpointContent uuid="A8791077-8A94-4311-9075-DDCAFB12B389"
+      shouldBeEnabled="No" ignoreCount="0"
+      continueAfterRunningActions="No"
+      filePath="ad-term-cli/TTY.swift"
+      startingColumnNumber="9223372036854775807"
+      endingColumnNumber="9223372036854775807"
+      startingLineNumber="44" endingLineNumber="44"
+      landmarkName="run()" landmarkType="7"></BreakpointContent>
+    </BreakpointProxy>
+  </Breakpoints>
 </Bucket>

@@ -16,14 +16,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		926AE00B2C467BB00064585E /* okgo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = okgo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		926AE00B2C467BB00064585E /* ad-term-cli.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ad-term-cli.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		926AE00E2C467BB00064585E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		926AE0102C467BB00064585E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		926AE0122C467BB00064585E /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		926AE0142C467BB10064585E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		926AE0172C467BB10064585E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		926AE0192C467BB10064585E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		926AE01A2C467BB10064585E /* okgo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = okgo.entitlements; sourceTree = "<group>"; };
+		926AE01A2C467BB10064585E /* ad-term-cli.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ad-term-cli.entitlements; sourceTree = "<group>"; };
 		926AE0202C4683DE0064585E /* TTY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTY.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -41,7 +41,7 @@
 		926AE0022C467BB00064585E = {
 			isa = PBXGroup;
 			children = (
-				926AE00D2C467BB00064585E /* okgo */,
+				926AE00D2C467BB00064585E /* ad-term-cli */,
 				926AE00C2C467BB00064585E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,12 +49,12 @@
 		926AE00C2C467BB00064585E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				926AE00B2C467BB00064585E /* okgo.app */,
+				926AE00B2C467BB00064585E /* ad-term-cli.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		926AE00D2C467BB00064585E /* okgo */ = {
+		926AE00D2C467BB00064585E /* ad-term-cli */ = {
 			isa = PBXGroup;
 			children = (
 				926AE0202C4683DE0064585E /* TTY.swift */,
@@ -64,17 +64,17 @@
 				926AE0142C467BB10064585E /* Assets.xcassets */,
 				926AE0162C467BB10064585E /* Main.storyboard */,
 				926AE0192C467BB10064585E /* Info.plist */,
-				926AE01A2C467BB10064585E /* okgo.entitlements */,
+				926AE01A2C467BB10064585E /* ad-term-cli.entitlements */,
 			);
-			path = okgo;
+			path = "ad-term-cli";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		926AE00A2C467BB00064585E /* okgo */ = {
+		926AE00A2C467BB00064585E /* ad-term-cli */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 926AE01D2C467BB10064585E /* Build configuration list for PBXNativeTarget "okgo" */;
+			buildConfigurationList = 926AE01D2C467BB10064585E /* Build configuration list for PBXNativeTarget "ad-term-cli" */;
 			buildPhases = (
 				926AE0072C467BB00064585E /* Sources */,
 				926AE0082C467BB00064585E /* Frameworks */,
@@ -84,9 +84,9 @@
 			);
 			dependencies = (
 			);
-			name = okgo;
-			productName = okgo;
-			productReference = 926AE00B2C467BB00064585E /* okgo.app */;
+			name = "ad-term-cli";
+			productName = ad-term-cli;
+			productReference = 926AE00B2C467BB00064585E /* ad-term-cli.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -104,7 +104,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 926AE0062C467BB00064585E /* Build configuration list for PBXProject "okgo" */;
+			buildConfigurationList = 926AE0062C467BB00064585E /* Build configuration list for PBXProject "ad-term-cli" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -117,7 +117,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				926AE00A2C467BB00064585E /* okgo */,
+				926AE00A2C467BB00064585E /* ad-term-cli */,
 			);
 		};
 /* End PBXProject section */
@@ -283,12 +283,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = okgo/okgo.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ad-term-cli/ad-term-cli.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = okgo/Info.plist;
+				INFOPLIST_FILE = ad-term-cli/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -297,7 +298,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = au.dlgr.okgo;
+				PRODUCT_BUNDLE_IDENTIFIER = au.dlgr.ad-term-cli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -309,12 +310,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = okgo/okgo.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ad-term-cli/ad-term-cli.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = okgo/Info.plist;
+				INFOPLIST_FILE = ad-term-cli/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -323,7 +325,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = au.dlgr.okgo;
+				PRODUCT_BUNDLE_IDENTIFIER = au.dlgr.ad-term-cli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -333,7 +335,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		926AE0062C467BB00064585E /* Build configuration list for PBXProject "okgo" */ = {
+		926AE0062C467BB00064585E /* Build configuration list for PBXProject "ad-term-cli" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				926AE01B2C467BB10064585E /* Debug */,
@@ -342,7 +344,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		926AE01D2C467BB10064585E /* Build configuration list for PBXNativeTarget "okgo" */ = {
+		926AE01D2C467BB10064585E /* Build configuration list for PBXNativeTarget "ad-term-cli" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				926AE01E2C467BB10064585E /* Debug */,

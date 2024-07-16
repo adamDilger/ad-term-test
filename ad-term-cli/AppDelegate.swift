@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  okgo
+//  ad-term-cli
 //
 //  Created by Adam Dilger on 16/7/2024.
 //
