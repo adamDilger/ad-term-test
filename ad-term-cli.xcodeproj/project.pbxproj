@@ -7,28 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		927F0EA92C450EB3009EFF81 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927F0EA82C450EB3009EFF81 /* main.swift */; };
+		926AE00F2C467BB00064585E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926AE00E2C467BB00064585E /* AppDelegate.swift */; };
+		926AE0112C467BB00064585E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926AE0102C467BB00064585E /* ViewController.swift */; };
+		926AE0132C467BB00064585E /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926AE0122C467BB00064585E /* Document.swift */; };
+		926AE0152C467BB10064585E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 926AE0142C467BB10064585E /* Assets.xcassets */; };
+		926AE0182C467BB10064585E /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 926AE0172C467BB10064585E /* Base */; };
+		926AE0212C4683DE0064585E /* TTY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926AE0202C4683DE0064585E /* TTY.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		927F0EA32C450EB3009EFF81 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		927F0EA52C450EB3009EFF81 /* ad-term-cli */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "ad-term-cli"; sourceTree = BUILT_PRODUCTS_DIR; };
-		927F0EA82C450EB3009EFF81 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		926AE00B2C467BB00064585E /* okgo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = okgo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		926AE00E2C467BB00064585E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		926AE0102C467BB00064585E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		926AE0122C467BB00064585E /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		926AE0142C467BB10064585E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		926AE0172C467BB10064585E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		926AE0192C467BB10064585E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		926AE01A2C467BB10064585E /* okgo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = okgo.entitlements; sourceTree = "<group>"; };
+		926AE0202C4683DE0064585E /* TTY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTY.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		927F0EA22C450EB3009EFF81 /* Frameworks */ = {
+		926AE0082C467BB00064585E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -38,66 +38,73 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		927F0E9C2C450EB3009EFF81 = {
+		926AE0022C467BB00064585E = {
 			isa = PBXGroup;
 			children = (
-				927F0EA72C450EB3009EFF81 /* ad-term-cli */,
-				927F0EA62C450EB3009EFF81 /* Products */,
+				926AE00D2C467BB00064585E /* okgo */,
+				926AE00C2C467BB00064585E /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		927F0EA62C450EB3009EFF81 /* Products */ = {
+		926AE00C2C467BB00064585E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				927F0EA52C450EB3009EFF81 /* ad-term-cli */,
+				926AE00B2C467BB00064585E /* okgo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		927F0EA72C450EB3009EFF81 /* ad-term-cli */ = {
+		926AE00D2C467BB00064585E /* okgo */ = {
 			isa = PBXGroup;
 			children = (
-				927F0EA82C450EB3009EFF81 /* main.swift */,
+				926AE0202C4683DE0064585E /* TTY.swift */,
+				926AE00E2C467BB00064585E /* AppDelegate.swift */,
+				926AE0102C467BB00064585E /* ViewController.swift */,
+				926AE0122C467BB00064585E /* Document.swift */,
+				926AE0142C467BB10064585E /* Assets.xcassets */,
+				926AE0162C467BB10064585E /* Main.storyboard */,
+				926AE0192C467BB10064585E /* Info.plist */,
+				926AE01A2C467BB10064585E /* okgo.entitlements */,
 			);
-			path = "ad-term-cli";
+			path = okgo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		927F0EA42C450EB3009EFF81 /* ad-term-cli */ = {
+		926AE00A2C467BB00064585E /* okgo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 927F0EAC2C450EB3009EFF81 /* Build configuration list for PBXNativeTarget "ad-term-cli" */;
+			buildConfigurationList = 926AE01D2C467BB10064585E /* Build configuration list for PBXNativeTarget "okgo" */;
 			buildPhases = (
-				927F0EA12C450EB3009EFF81 /* Sources */,
-				927F0EA22C450EB3009EFF81 /* Frameworks */,
-				927F0EA32C450EB3009EFF81 /* CopyFiles */,
+				926AE0072C467BB00064585E /* Sources */,
+				926AE0082C467BB00064585E /* Frameworks */,
+				926AE0092C467BB00064585E /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "ad-term-cli";
-			productName = "ad-term-cli";
-			productReference = 927F0EA52C450EB3009EFF81 /* ad-term-cli */;
-			productType = "com.apple.product-type.tool";
+			name = okgo;
+			productName = okgo;
+			productReference = 926AE00B2C467BB00064585E /* okgo.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		927F0E9D2C450EB3009EFF81 /* Project object */ = {
+		926AE0032C467BB00064585E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
-					927F0EA42C450EB3009EFF81 = {
+					926AE00A2C467BB00064585E = {
 						CreatedOnToolsVersion = 15.4;
 					};
 				};
 			};
-			buildConfigurationList = 927F0EA02C450EB3009EFF81 /* Build configuration list for PBXProject "ad-term-cli" */;
+			buildConfigurationList = 926AE0062C467BB00064585E /* Build configuration list for PBXProject "okgo" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -105,29 +112,55 @@
 				en,
 				Base,
 			);
-			mainGroup = 927F0E9C2C450EB3009EFF81;
-			productRefGroup = 927F0EA62C450EB3009EFF81 /* Products */;
+			mainGroup = 926AE0022C467BB00064585E;
+			productRefGroup = 926AE00C2C467BB00064585E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				927F0EA42C450EB3009EFF81 /* ad-term-cli */,
+				926AE00A2C467BB00064585E /* okgo */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		926AE0092C467BB00064585E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				926AE0152C467BB10064585E /* Assets.xcassets in Resources */,
+				926AE0182C467BB10064585E /* Base in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		927F0EA12C450EB3009EFF81 /* Sources */ = {
+		926AE0072C467BB00064585E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				927F0EA92C450EB3009EFF81 /* main.swift in Sources */,
+				926AE0112C467BB00064585E /* ViewController.swift in Sources */,
+				926AE0212C4683DE0064585E /* TTY.swift in Sources */,
+				926AE00F2C467BB00064585E /* AppDelegate.swift in Sources */,
+				926AE0132C467BB00064585E /* Document.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		926AE0162C467BB10064585E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				926AE0172C467BB10064585E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
-		927F0EAA2C450EB3009EFF81 /* Debug */ = {
+		926AE01B2C467BB10064585E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -190,7 +223,7 @@
 			};
 			name = Debug;
 		};
-		927F0EAB2C450EB3009EFF81 /* Release */ = {
+		926AE01C2C467BB10064585E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -245,20 +278,54 @@
 			};
 			name = Release;
 		};
-		927F0EAD2C450EB3009EFF81 /* Debug */ = {
+		926AE01E2C467BB10064585E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = okgo/okgo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = okgo/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = au.dlgr.okgo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		927F0EAE2C450EB3009EFF81 /* Release */ = {
+		926AE01F2C467BB10064585E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = okgo/okgo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = okgo/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = au.dlgr.okgo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -266,25 +333,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		927F0EA02C450EB3009EFF81 /* Build configuration list for PBXProject "ad-term-cli" */ = {
+		926AE0062C467BB00064585E /* Build configuration list for PBXProject "okgo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				927F0EAA2C450EB3009EFF81 /* Debug */,
-				927F0EAB2C450EB3009EFF81 /* Release */,
+				926AE01B2C467BB10064585E /* Debug */,
+				926AE01C2C467BB10064585E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		927F0EAC2C450EB3009EFF81 /* Build configuration list for PBXNativeTarget "ad-term-cli" */ = {
+		926AE01D2C467BB10064585E /* Build configuration list for PBXNativeTarget "okgo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				927F0EAD2C450EB3009EFF81 /* Debug */,
-				927F0EAE2C450EB3009EFF81 /* Release */,
+				926AE01E2C467BB10064585E /* Debug */,
+				926AE01F2C467BB10064585E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 927F0E9D2C450EB3009EFF81 /* Project object */;
+	rootObject = 926AE0032C467BB00064585E /* Project object */;
 }
