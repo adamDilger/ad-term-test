@@ -10,6 +10,8 @@ import Cocoa
 class ViewController: NSViewController {
     var tty: TTY;
     
+    @IBOutlet var text: NSTextField?;
+    
     required init?(coder: NSCoder) {
         self.tty = TTY()
         super.init(coder: coder)
@@ -41,7 +43,14 @@ class ViewController: NSViewController {
     
     @objc func userLoggedIn(_ notification: Notification) {
         let d = notification.object! as! (Data, Array<line>);
-        print(d.1)
+        
+        var out = "";
+        for l in d.1 {
+            out += String(decoding: d.0.subdata(in: l.start..<l.end), as: UTF8.self);
+        }
+        DispatchQueue.main.async {
+            self.text?.cell?.stringValue = out;
+        }
     }
 
     override func keyDown(with event: NSEvent) {
