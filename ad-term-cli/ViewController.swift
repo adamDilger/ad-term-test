@@ -13,7 +13,8 @@ class ViewController: NSViewController {
     required init?(coder: NSCoder) {
         self.tty = TTY()
         super.init(coder: coder)
-        self.tty.run()
+        
+        self.tty.run(nc: NotificationCenter.default)
     }
     
     override func viewDidLoad() {
@@ -27,12 +28,20 @@ class ViewController: NSViewController {
             self.keyDown(with: $0)
             return $0
         }
+        
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(userLoggedIn(_:)), name: Notification.Name("TerminalDataUpdate"), object: nil)
     }
 
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
         }
+    }
+    
+    @objc func userLoggedIn(_ notification: Notification) {
+        let d = notification.object! as! (Data, Array<line>);
+        print(d.1)
     }
 
     override func keyDown(with event: NSEvent) {
