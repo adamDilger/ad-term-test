@@ -63,10 +63,10 @@ class TTY {
                 self.lines[self.lines.count - 1].end += 1;
                 let b = self.buffer[i];
                 if (self.buffer[i] == nl) {
-                    self.lines.append(line(start: i, end: i))
+                    self.lines.append(line(start: i + 1, end: i + 1))
                 }
                 else if (b == bs) {
-                    self.lines[self.lines.count - 1].end -= 2
+                    self.lines.append(line(start: i + 1, end: i + 1))
                 }
             }
             

@@ -7,16 +7,29 @@
 
 import Cocoa
 
+struct Cell {
+    var char: Character?;
+}
+
+let WIDTH = 100;
+let HEIGHT = 40;
+
 class ViewController: NSViewController {
     var tty: TTY;
     
     @IBOutlet var text: NSTextField?;
+    
+    var cells = Array<Cell>();
     
     required init?(coder: NSCoder) {
         self.tty = TTY()
         super.init(coder: coder)
         
         self.tty.run(nc: NotificationCenter.default)
+                
+        for i in 0..<WIDTH*HEIGHT {
+            self.cells.append(Cell())
+        }
     }
     
     override func viewDidLoad() {
@@ -43,13 +56,48 @@ class ViewController: NSViewController {
     
     @objc func userLoggedIn(_ notification: Notification) {
         let d = notification.object! as! (Data, Array<line>);
+    
+        // --------
+        let backspace = Character("\u{8}").asciiValue;
+        let newline = Character("\n").asciiValue;
+        // --------
         
-        var out = "";
-        for l in d.1 {
-            out += String(decoding: d.0.subdata(in: l.start..<l.end), as: UTF8.self);
+        
+        var x = 0;
+        var y = 0;
+        
+        for line in d.1 {
+            let l = d.0.subdata(in: line.start..<line.end);
+            
+            for b in l {
+                let bc = Character(UnicodeScalar(b))
+                
+                if b == newline {
+                    y += 1;
+                    x = 0;
+                } else if b == backspace {
+                    x -= 1;
+                } else {
+                    self.cells[x + (y * HEIGHT)].char = bc
+                    
+                    if x + 1 == WIDTH {
+                        x = 0;
+                        y += 1;
+                    } else {
+                        x += 1;
+                    }
+                }
+            }
         }
+        
+        var out = Array<Character>();
+        for cell in self.cells {
+            guard let char = cell.char else { continue; }
+            out.append(char);
+        }
+        
         DispatchQueue.main.async {
-            self.text?.cell?.stringValue = out;
+            self.text?.cell?.stringValue = String(out);
         }
     }
 
