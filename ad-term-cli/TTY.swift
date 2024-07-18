@@ -52,8 +52,8 @@ class TTY {
             self.buffer.append(data)
             let r = cur..<self.buffer.count;
             
-//            let a = String(decoding: self.buffer.subdata(in: r), as: UTF8.self)
-//            print(a, terminator: "")
+            // let a = String(decoding: self.buffer.subdata(in: r), as: UTF8.self)
+            // print(a, terminator: "")
             
             // parse output to determine lines
             let nl = Character("\n").asciiValue
@@ -68,6 +68,7 @@ class TTY {
                 else if (b == bs) {
                     self.lines.append(line(start: i + 1, end: i + 1))
                 }
+                self.lines.append(line(start: i + 1, end: i + 1))
             }
             
             nc.post(name: Notification.Name("TerminalDataUpdate"), object: (self.buffer, self.lines))

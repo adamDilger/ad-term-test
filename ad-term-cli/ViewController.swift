@@ -27,7 +27,7 @@ class ViewController: NSViewController {
         
         self.tty.run(nc: NotificationCenter.default)
                 
-        for i in 0..<WIDTH*HEIGHT {
+        for _ in 0..<WIDTH*HEIGHT {
             self.cells.append(Cell())
         }
     }
@@ -62,7 +62,6 @@ class ViewController: NSViewController {
         let newline = Character("\n").asciiValue;
         // --------
         
-        
         var x = 0;
         var y = 0;
         
@@ -71,6 +70,7 @@ class ViewController: NSViewController {
             
             for b in l {
                 let bc = Character(UnicodeScalar(b))
+                // print(bc, bc.asciiValue)
                 
                 if b == newline {
                     y += 1;
@@ -78,7 +78,7 @@ class ViewController: NSViewController {
                 } else if b == backspace {
                     x -= 1;
                 } else {
-                    self.cells[x + (y * HEIGHT)].char = bc
+                    self.cells[x + (y * WIDTH)].char = bc
                     
                     if x + 1 == WIDTH {
                         x = 0;
