@@ -12,7 +12,7 @@ struct Cell {
 }
 
 let WIDTH = 100;
-let HEIGHT = 40;
+let HEIGHT = 4;
 
 class ViewController: NSViewController {
     var tty: TTY;
@@ -54,16 +54,28 @@ class ViewController: NSViewController {
         }
     }
     
+    func clearRow(idx: Int) {
+        for i in (WIDTH*idx)..<(WIDTH*(idx+1)) {
+            self.cells[i].char = nil;
+        }
+    }
+    
     @objc func userLoggedIn(_ notification: Notification) {
         let d = notification.object! as! (Data, Array<line>);
     
         // --------
         let backspace = Character("\u{8}").asciiValue;
         let newline = Character("\n").asciiValue;
+        let carriagereturn = Character("\r").asciiValue;
         // --------
         
         var x = 0;
         var y = 0;
+        var startingRowIdx = 0;
+        
+        for i in 0..<HEIGHT {
+            self.clearRow(idx: i)
+        }
         
         for line in d.1 {
             let l = d.0.subdata(in: line.start..<line.end);
@@ -73,7 +85,16 @@ class ViewController: NSViewController {
                 // print(bc, bc.asciiValue)
                 
                 if b == newline {
-                    y += 1;
+                    x = 0;
+                    if y + 1 == HEIGHT {
+                        y = 0;
+                        startingRowIdx += 1;
+                    } else {
+                        y += 1;
+                    }
+                    
+                    self.clearRow(idx: y);
+                } else if b == carriagereturn {
                     x = 0;
                 } else if b == backspace {
                     x -= 1;
@@ -82,7 +103,14 @@ class ViewController: NSViewController {
                     
                     if x + 1 == WIDTH {
                         x = 0;
-                        y += 1;
+                        
+                        if y + 1 == HEIGHT {
+                            y = 0;
+                            startingRowIdx += 1;
+                        } else {
+                            y += 1;
+                        }
+                        self.clearRow(idx: y);
                     } else {
                         x += 1;
                     }
@@ -91,13 +119,35 @@ class ViewController: NSViewController {
         }
         
         var out = Array<Character>();
-        for cell in self.cells {
-            guard let char = cell.char else { continue; }
-            out.append(char);
+        let offset = startingRowIdx * WIDTH;
+        for i in 0..<HEIGHT {
+            for j in 0..<WIDTH {
+                let idx = (j + offset + (i*WIDTH)) % (WIDTH*HEIGHT);
+                guard let char = self.cells[idx].char else { break; }
+                out.append(char);
+            }
+            
+            out.append(Character("\n"));
         }
         
+        
+        print("------------------------------------------------------------------" + String(startingRowIdx));
+        for i in 0..<HEIGHT {
+            var o = "";
+            for j in 0..<WIDTH {
+                guard var char = self.cells[j + (i * WIDTH)].char else { continue; }
+                if (char == Character("\n")) { char = Character("_n") }
+                if (char == Character("\r")) { char = Character("_r") }
+                o.append(char);
+            }
+            
+            print(String(i) + "["+o+"]");
+        }
+        print("------------------------------------------------------------------");
+        
+        
         DispatchQueue.main.async {
-            self.text?.cell?.stringValue = String(out);
+            self.text?.cell?.stringValue = "[" + String(out) + "]";
         }
     }
 

@@ -43,6 +43,10 @@ class TTY {
         self.task!.standardError = slaveFile
     }
 
+    func newLine(at: Int) {
+        self.lines.append(line(start: at + 1, end: at + 1))
+    }
+    
     func run(nc: NotificationCenter) {
         self.masterFile!.readabilityHandler = { handler in
             let cur = self.buffer.count
@@ -63,13 +67,15 @@ class TTY {
                 self.lines[self.lines.count - 1].end += 1;
                 let b = self.buffer[i];
                 if (self.buffer[i] == nl) {
-                    self.lines.append(line(start: i + 1, end: i + 1))
+                    self.newLine(at: i);
                 }
                 else if (b == bs) {
-                    self.lines.append(line(start: i + 1, end: i + 1))
+                    self.newLine(at: i);
                 }
-                self.lines.append(line(start: i + 1, end: i + 1))
             }
+            
+            // maybe todo: check this
+            // self.newLine(at: i);
             
             nc.post(name: Notification.Name("TerminalDataUpdate"), object: (self.buffer, self.lines))
         }

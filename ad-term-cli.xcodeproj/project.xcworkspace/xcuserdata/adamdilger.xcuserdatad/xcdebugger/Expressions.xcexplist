@@ -10,5 +10,13 @@
             </PersistentString>
          </PersistentStrings>
       </ContextState>
+      <ContextState
+         contextName = "ViewController.clearRow(idx:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.cells[i].char">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
    </ContextStates>
 </VariablesViewState>
