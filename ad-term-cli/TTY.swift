@@ -74,9 +74,6 @@ class TTY {
                 }
             }
             
-            // maybe todo: check this
-            // self.newLine(at: i);
-            
             nc.post(name: Notification.Name("TerminalDataUpdate"), object: (self.buffer, self.lines))
         }
 

@@ -12,7 +12,7 @@ struct Cell {
 }
 
 let WIDTH = 100;
-let HEIGHT = 4;
+let HEIGHT = 10;
 
 class ViewController: NSViewController {
     var tty: TTY;
@@ -71,7 +71,8 @@ class ViewController: NSViewController {
         
         var x = 0;
         var y = 0;
-        var startingRowIdx = 0;
+        // var startingRowIdx = 0;
+        var currentLineIndex = 0;
         
         for i in 0..<HEIGHT {
             self.clearRow(idx: i)
@@ -88,11 +89,12 @@ class ViewController: NSViewController {
                     x = 0;
                     if y + 1 == HEIGHT {
                         y = 0;
-                        startingRowIdx += 1;
+                        // startingRowIdx += 1;
                     } else {
                         y += 1;
+                        // if (startingRowIdx > 0) { startingRowIdx += 1; }
                     }
-                    
+                    currentLineIndex += 1;
                     self.clearRow(idx: y);
                 } else if b == carriagereturn {
                     x = 0;
@@ -106,11 +108,14 @@ class ViewController: NSViewController {
                         
                         if y + 1 == HEIGHT {
                             y = 0;
-                            startingRowIdx += 1;
+                            //startingRowIdx += 1;
                         } else {
                             y += 1;
+                            // if (startingRowIdx > 0) { startingRowIdx += 1; }
                         }
+                        
                         self.clearRow(idx: y);
+                        currentLineIndex += 1;
                     } else {
                         x += 1;
                     }
@@ -119,7 +124,11 @@ class ViewController: NSViewController {
         }
         
         var out = Array<Character>();
-        let offset = startingRowIdx * WIDTH;
+        var offset = 0; //startingRowIdx * WIDTH;
+        if (currentLineIndex > HEIGHT) {
+            offset = (currentLineIndex - HEIGHT + 1) * WIDTH;
+        }
+        
         for i in 0..<HEIGHT {
             for j in 0..<WIDTH {
                 let idx = (j + offset + (i*WIDTH)) % (WIDTH*HEIGHT);
@@ -131,13 +140,11 @@ class ViewController: NSViewController {
         }
         
         
-        print("------------------------------------------------------------------" + String(startingRowIdx));
+        print("------------------------------------------------------------------" + String(currentLineIndex));
         for i in 0..<HEIGHT {
             var o = "";
             for j in 0..<WIDTH {
-                guard var char = self.cells[j + (i * WIDTH)].char else { continue; }
-                if (char == Character("\n")) { char = Character("_n") }
-                if (char == Character("\r")) { char = Character("_r") }
+                guard let char = self.cells[j + (i * WIDTH)].char else { continue; }
                 o.append(char);
             }
             
@@ -147,7 +154,7 @@ class ViewController: NSViewController {
         
         
         DispatchQueue.main.async {
-            self.text?.cell?.stringValue = "[" + String(out) + "]";
+            self.text?.cell?.stringValue = String(out);
         }
     }
 
