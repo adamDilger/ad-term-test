@@ -11,8 +11,8 @@ struct Cell {
     var char: Character?;
 }
 
-let WIDTH = 100;
-let HEIGHT = 10;
+let WIDTH = 80;
+let HEIGHT = 24;
 
 // --------
 let backspace = Character("\u{8}").asciiValue!;
@@ -20,8 +20,14 @@ let newline = Character("\n").asciiValue!;
 let carriagereturn = Character("\r").asciiValue!;
 let ESC = Character("\u{1b}").asciiValue!;
 let L_SQUARE = Character("[").asciiValue!;
+let ASC_SEMI_COLON = Character(";").asciiValue!;
 let ASC_J = Character("J").asciiValue!;
+let ASC_h = Character("h").asciiValue!;
 let ASC_H = Character("H").asciiValue!;
+let ASC_m = Character("m").asciiValue!;
+let ASC_l = Character("l").asciiValue!;
+let ASC_QUESTION_MARK = Character("?").asciiValue!;
+let ASC_GREATER_THAN = Character(">").asciiValue!;
 let ASC_0 = Character("0").asciiValue!;
 let ASC_1 = Character("1").asciiValue!;
 let ASC_2 = Character("2").asciiValue!;
@@ -68,7 +74,6 @@ class Terminal {
                     if peek == L_SQUARE {
                         idx += 1;
                         self.readControlCode(data: data, idx: &idx, x: &x, y: &y);
-                        self.currentLineIndex = 0;
                     }
                 } else if b == newline {
                     x = 0;
@@ -107,28 +112,118 @@ class Terminal {
         }
     }
     
-    func readControlCode(data: Data, idx: inout Int, x: inout Int, y: inout Int) {
-        let first = data[idx];
-        idx += 1;
-        
-        if first >= ASC_0 && first <= ASC_9 {
-            let letter = data[idx];
+    func isNumber(_ i: UInt8?) -> Bool {
+        guard let i = i else { return false; }
+        return i >= ASC_0 && i <= ASC_9
+    }
+    
+    func consumeNumber(data: Data, idx: inout Int) -> Int {
+        let s = idx + 1;
+        while self.isNumber(data[idx + 1]) {
             idx += 1;
+        }
+        
+        let num = data[s...idx];
+        
+        // print("Parsed: " + String(decoding: num, as: Unicode.UTF8.self));
+        return Int(String(decoding: num, as: Unicode.UTF8.self))!
+    }
+    
+    func readControlCode(data: Data, idx: inout Int, x: inout Int, y: inout Int) {
+        var peek: UInt8? = data[idx + 1]
+        
+        if peek == ASC_QUESTION_MARK {
+            idx += 1;
+            let n = isNumber(data[idx + 1]) ? self.consumeNumber(data: data, idx: &idx) : nil;
             
-            if letter == ASC_H {
-                x = 0;
-                y = 0;
-            } else if letter == ASC_J {
-                if first == ASC_2 || first == ASC_3 {
-                    // clear screen!
-                    x = 0;
-                    y = 0;
+            idx += 1;
+            let letter = data[idx]
+            let isH = letter == ASC_h;
+            let isL = letter == ASC_l;
+            
+            print("Escape ?: \(n ?? -1) \(isH) \(isL)")
+            return;
+        }
+        
+        var n: Int? = nil;
+        var m: Int? = nil;
+        if isNumber(peek) {
+            n = self.consumeNumber(data: data, idx: &idx);
+            peek = idx + 1 < data.count ? data[idx + 1] : nil;
+            
+            if peek == ASC_SEMI_COLON {
+                idx += 1;
+                peek = idx + 1 < data.count ? data[idx + 1] : nil;
+                
+                if isNumber(peek) {
+                    m = consumeNumber(data: data, idx: &idx)
+                    peek = idx + 1 < data.count ? data[idx + 1] : nil;
+                }
+            }
+        } else if peek == ASC_SEMI_COLON {
+            idx += 1;
+            peek = idx + 1 < data.count ? data[idx + 1] : nil;
+            
+            if isNumber(peek) {
+                m = consumeNumber(data: data, idx: &idx)
+                peek = idx + 1 < data.count ? data[idx + 1] : nil;
+            }
+        } else if peek == ASC_GREATER_THAN {
+            print("TODO: > character found")
+            idx += 1;
+            peek = idx + 1 < data.count ? data[idx + 1] : nil;
+            
+            if isNumber(peek) {
+                n = self.consumeNumber(data: data, idx: &idx);
+                peek = idx + 1 < data.count ? data[idx + 1] : nil;
+                
+                if peek == ASC_SEMI_COLON {
+                    idx += 1;
+                    peek = idx + 1 < data.count ? data[idx + 1] : nil;
                     
-                    for i in 0..<WIDTH*HEIGHT {
-                        self.cells[i].char = nil;
+                    if isNumber(peek) {
+                        m = consumeNumber(data: data, idx: &idx)
+                        peek = idx + 1 < data.count ? data[idx + 1] : nil;
                     }
                 }
             }
+        }
+        
+        // all numbers parsed, now check the letter
+        
+        if peek == ASC_H {
+            print("\(n ?? 1);\(m ?? 1)H")
+            idx += 1;
+            x = (m ?? 1) - 1;
+            y = (n ?? 1) - 1;
+            
+            // self.currentLineIndex = y;
+        } else if peek == ASC_J {
+            print("\(n ?? 0)J")
+            idx += 1;
+            
+            let n = n ?? 0;
+            if n == 0 {
+                // If n is 0 (or missing), clear from cursor to end of screen
+                print("TODO: // [0J")
+            } else if n == 1 {
+                // clear from cursor to beginning of the screen
+                print("TODO: // [1J")
+            } else if n == 2 {
+                //If n is 2, clear entire screen (and moves cursor to upper left on DOS ANSI.SYS)
+                print("TODO: // [2J")
+                
+                for i in 0..<WIDTH*HEIGHT {
+                    self.cells[i].char = nil;
+                }
+            } else /* 3 */ {
+                for i in 0..<WIDTH*HEIGHT {
+                    self.cells[i].char = nil;
+                }
+            }
+        } else if peek == ASC_m {
+            // print("TODO: color [\(n ?? -1)m")
+            idx += 1;
         }
     }
 }

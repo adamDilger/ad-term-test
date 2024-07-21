@@ -36,7 +36,7 @@ class TTY {
         self.masterFile = FileHandle.init(fileDescriptor: masterFD)
         let slavePath = String.init(cString: ptsname(masterFD))
         self.slaveFile = FileHandle.init(forUpdatingAtPath: slavePath)
-        self.task!.executableURL = URL(fileURLWithPath: "/bin/sh")
+        self.task!.executableURL = URL(fileURLWithPath: "/bin/bash")
         self.task!.arguments = ["-i"]
         self.task!.standardOutput = slaveFile
         self.task!.standardInput = slaveFile

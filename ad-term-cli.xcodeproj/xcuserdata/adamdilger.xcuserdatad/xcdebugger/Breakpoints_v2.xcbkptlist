@@ -7,33 +7,113 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E531CFC8-8CF3-4DC7-A25F-62C5BBDABB9A"
+            uuid = "5A0E4D9F-D1B9-4D54-9CF6-ADA78F622A7A"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ad-term-cli/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
-            landmarkName = "userLoggedIn(_:)"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "draw(data:lineBuffer:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C3F399E6-B6A5-42A2-95EF-66E7E70D3D39"
+            uuid = "C241A2DB-4CE2-4554-89D0-1C3B616DC638"
+            shouldBeEnabled = "No"
+            condition = "n! == 1 &amp;&amp; m! == 1"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ad-term-cli/ViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
+            landmarkName = "readControlCode(data:idx:x:y:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "799D7787-A7CF-440C-AB50-4635BCBE75AD"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ad-term-cli/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
-            landmarkName = "userLoggedIn(_:)"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "readControlCode(data:idx:x:y:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F1C5A6C4-6B65-4AFC-BE6C-B90137CCD85B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ad-term-cli/ViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
+            landmarkName = "readControlCode(data:idx:x:y:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B547EFD8-8C56-4F67-8CB1-6FC1B36216A9"
+            shouldBeEnabled = "Yes"
+            condition = "x == 0 &amp;&amp; y == 0"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ad-term-cli/ViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "draw(data:lineBuffer:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B547EFD8-8C56-4F67-8CB1-6FC1B36216A9 - 6156a6ce721292ba"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ad_term_cli.Terminal.draw(data: Foundation.Data, lineBuffer: Swift.Array&lt;ad_term_cli.line&gt;) -&gt; ()"
+                  moduleName = "ad-term-cli"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adamdilger/dev/ad-term-cli/ad-term-cli/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "93"
+                  endingLineNumber = "93">
+               </Location>
+               <Location
+                  uuid = "B547EFD8-8C56-4F67-8CB1-6FC1B36216A9 - 6156a6ce7212929b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ad_term_cli.Terminal.draw(data: Foundation.Data, lineBuffer: Swift.Array&lt;ad_term_cli.line&gt;) -&gt; ()"
+                  moduleName = "ad-term-cli"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adamdilger/dev/ad-term-cli/ad-term-cli/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "92"
+                  endingLineNumber = "92">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

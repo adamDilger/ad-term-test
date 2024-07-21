@@ -3,10 +3,21 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "Terminal.readControlCode(data:idx:x:y:):ViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in TTY.run():TTY.swift">
          <PersistentStrings>
             <PersistentString
                value = "self.buffer[i]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Terminal.draw(data:lineBuffer:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "data[idx ]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
