@@ -18,18 +18,23 @@ let HEIGHT = 24;
 let backspace = Character("\u{8}").asciiValue!;
 let newline = Character("\n").asciiValue!;
 let carriagereturn = Character("\r").asciiValue!;
-let ESC = Character("\u{1b}").asciiValue!;
-let L_SQUARE = Character("[").asciiValue!;
-let ASC_BACKSLASH = Character("\\").asciiValue!;
-let ASC_SEMI_COLON = Character(";").asciiValue!;
+
 let ASC_J = Character("J").asciiValue!;
 let ASC_h = Character("h").asciiValue!;
 let ASC_H = Character("H").asciiValue!;
 let ASC_m = Character("m").asciiValue!;
 let ASC_l = Character("l").asciiValue!;
 let ASC_P = Character("P").asciiValue!;
-let ASC_QUESTION_MARK = Character("?").asciiValue!;
-let ASC_GREATER_THAN = Character(">").asciiValue!;
+
+let ASC_ESC = Character("\u{1b}").asciiValue!;
+let ASC_L_SQUARE = Character("[").asciiValue!;
+let ASC_BACKSLASH = Character("\\").asciiValue!;
+let ASC_SEMI_COLON = Character(";").asciiValue!;
+let ASC_LESS_THAN = Character("<").asciiValue!;
+let ASC_EQUALS = Character("=").asciiValue!;
+let ASC_GREATER_THAN =  Character(">").asciiValue!;
+let ASC_QUESTION_MARK =  Character("?").asciiValue!;
+
 let ASC_0 = Character("0").asciiValue!;
 let ASC_1 = Character("1").asciiValue!;
 let ASC_2 = Character("2").asciiValue!;
@@ -73,9 +78,9 @@ class Terminal {
                 let b = data[idx];
                 let bc = Character(UnicodeScalar(b))
                 
-                if b == ESC {
+                if b == ASC_ESC {
                     let peek = data[idx + 1];
-                    if peek == L_SQUARE {
+                    if peek == ASC_L_SQUARE {
                         idx += 1;
                         self.readControlCode(data: data, idx: &idx, x: &x, y: &y);
                     } else if peek == ASC_P {
@@ -84,7 +89,7 @@ class Terminal {
                         var p1 = idx + 1 < data.count ? data[idx + 1] : nil;
                         var p2 = idx + 2 < data.count ? data[idx + 2] : nil;
                         
-                        while !(p1 == ESC && p2 == ASC_BACKSLASH) {
+                        while !(p1 == ASC_ESC && p2 == ASC_BACKSLASH) {
                             idx += 1
                             p1 = idx + 1 < data.count ? data[idx + 1] : nil;
                             p2 = idx + 2 < data.count ? data[idx + 2] : nil;
@@ -152,80 +157,73 @@ class Terminal {
     }
     
     func readControlCode(data: Data, idx: inout Int, x: inout Int, y: inout Int) {
-        var peek: UInt8? = data[idx + 1]
+        var peek: UInt8? = data[idx + 1];
         
-        if peek == ASC_QUESTION_MARK {
-            idx += 1;
-            let n = isNumber(data[idx + 1]) ? self.consumeNumber(data: data, idx: &idx) : nil;
+        var questionMark = false;
+        var greaterThan = false;
+        var lessThan = false;
+        var equals = false;
+        
+        while peek! >= ASC_LESS_THAN && peek! <= ASC_QUESTION_MARK {
+            switch peek {
+            case ASC_QUESTION_MARK: questionMark = true;
+            case ASC_GREATER_THAN: greaterThan = true;
+            case ASC_LESS_THAN: lessThan = true;
+            case ASC_EQUALS: equals = true;
+            default: print("UNKNOWN: \(peek!)");
+            }
             
             idx += 1;
-            let letter = data[idx]
-            let isH = letter == ASC_h;
-            let isL = letter == ASC_l;
-            
-            print("Escape ?: \(n ?? -1) \(isH) \(isL)")
-            return;
+            peek = idx + 1 < data.count ? data[idx + 1] : nil;
         }
         
-        var n: Int? = nil;
-        var m: Int? = nil;
-
-        if isNumber(peek) {
-            n = self.consumeNumber(data: data, idx: &idx);
-            peek = idx + 1 < data.count ? data[idx + 1] : nil;
-            
-            if peek == ASC_SEMI_COLON {
+        // we've parsed some rando characters, now parse out the number array
+        var numbers = Array<UInt16>();
+        
+        while peek == ASC_SEMI_COLON || (ASC_0 <= peek! && peek! <= ASC_9) {
+            while ASC_0 <= peek! && peek! <= ASC_9 {
+                if numbers.isEmpty { numbers.append(0); }
+                
+                numbers[numbers.count - 1] *= 10
+                numbers[numbers.count - 1] += UInt16(peek! - ASC_0)
+                
                 idx += 1;
                 peek = idx + 1 < data.count ? data[idx + 1] : nil;
-                
-                if isNumber(peek) {
-                    m = consumeNumber(data: data, idx: &idx)
-                    peek = idx + 1 < data.count ? data[idx + 1] : nil;
-                }
             }
-        } else if peek == ASC_SEMI_COLON {
-            idx += 1;
-            peek = idx + 1 < data.count ? data[idx + 1] : nil;
             
-            if isNumber(peek) {
-                m = consumeNumber(data: data, idx: &idx)
+            if peek == ASC_SEMI_COLON {
+                numbers.append(0);
+                idx += 1;
                 peek = idx + 1 < data.count ? data[idx + 1] : nil;
-            }
-        } else if peek == ASC_GREATER_THAN {
-            print("TODO: > character found")
-            idx += 1;
-            peek = idx + 1 < data.count ? data[idx + 1] : nil;
-            
-            if isNumber(peek) {
-                n = self.consumeNumber(data: data, idx: &idx);
-                peek = idx + 1 < data.count ? data[idx + 1] : nil;
-                
-                if peek == ASC_SEMI_COLON {
-                    idx += 1;
-                    peek = idx + 1 < data.count ? data[idx + 1] : nil;
-                    
-                    if isNumber(peek) {
-                        m = consumeNumber(data: data, idx: &idx)
-                        peek = idx + 1 < data.count ? data[idx + 1] : nil;
-                    }
-                }
             }
         }
         
-        // all numbers parsed, now check the letter
-        
-        if peek == ASC_H {
-            print("\(n ?? 1);\(m ?? 1)H")
-            idx += 1;
-            x = (m ?? 1) - 1;
-            y = (n ?? 1) - 1;
+        if peek == ASC_h {
+            var n: UInt16 = 1;
+            if numbers.count > 0 && numbers[0] != 0 { n = numbers[0] }
             
-            // self.currentLineIndex = y;
+            print("\(questionMark ? "?" : "")\(n)h")
+            idx += 1;
+        } else if peek == ASC_H {
+            var n: UInt16 = 1;
+            if numbers.count > 0 && numbers[0] != 0 { n = numbers[0] }
+            
+            var m: UInt16 = 1;
+            if numbers.count > 1 && numbers[1] != 0 { m = numbers[1] }
+            
+            print("\(n);\(m)H")
+            idx += 1;
+            x = Int(m) - 1;
+            y = Int(n) - 1;
+            
+            self.currentLineIndex = y;
         } else if peek == ASC_J {
-            print("\(n ?? 0)J")
+            var n: UInt16 = 0;
+            if numbers.count > 0 { n = numbers[0] }
+            
+            print("\(n)J")
             idx += 1;
             
-            let n = n ?? 0;
             if n == 0 {
                 // If n is 0 (or missing), clear from cursor to end of screen
                 print("TODO: // [0J")
@@ -244,10 +242,18 @@ class Terminal {
                     self.cells[i].char = nil;
                 }
             }
-        } else if peek == ASC_m && m == nil {
+        } else if peek == ASC_m && numbers.count > 1 {
             idx += 1;
             
-            let n = n ?? 0;
+            let n = numbers[0]
+            let m = numbers[1]
+            
+            print("TODO: [\(n);\(m)m")
+        } else if peek == ASC_m {
+            idx += 1;
+            
+            var n: UInt16 = 0;
+            if numbers.count > 0 { n = numbers[0] }
             
             switch (n) {
             case 0: print("[\(n)m setting Normal (default)");
@@ -272,16 +278,9 @@ class Terminal {
             case 47: print("[\(n)m Setting colour to White")
             default: print("TODO: color [\(n)m")
             }
-        } else if peek == ASC_m && m != nil /* TODO: Properly check if "second" number is passed, maybe a 'has semicolon' flag */ {
-            idx += 1;
-            
-            let n = n ?? 0;
-            let m = m ?? 0;
-            
-            print("TODO: [\(n);\(m)m")
         } else {
             idx += 1;
-            print("----- UNKNOWN: [\(n ?? 0);\(m ?? 0)\(Character(UnicodeScalar(data[idx])))")
+            print("----- UNKNOWN: \(Character(UnicodeScalar(data[idx])))")
         }
     }
 }
@@ -336,7 +335,7 @@ class ViewController: NSViewController {
         for i in 0..<HEIGHT {
             for j in 0..<WIDTH {
                 let idx = (j + offset + (i*WIDTH)) % (WIDTH*HEIGHT);
-                guard let char = self.terminal.cells[idx].char else { break; }
+                let char = self.terminal.cells[idx].char ?? " ";
                 out.append(char);
             }
             

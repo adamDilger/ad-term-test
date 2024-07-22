@@ -4,6 +4,14 @@
    <ContextStates>
       <ContextState
          contextName = "Terminal.readControlCode(data:idx:x:y:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Character(UnicodeScalar(data[idx]))">
+            </PersistentString>
+            <PersistentString
+               value = "Character(UnicodeScalar(data[idx + 1]))">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "closure #1 in TTY.run():TTY.swift">
