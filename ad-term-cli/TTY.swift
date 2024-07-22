@@ -53,6 +53,8 @@ class TTY {
              
             let data = handler.availableData;
             
+            // print(String(decoding: data, as: UTF8.self))
+            
             self.buffer.append(data)
             let r = cur..<self.buffer.count;
             

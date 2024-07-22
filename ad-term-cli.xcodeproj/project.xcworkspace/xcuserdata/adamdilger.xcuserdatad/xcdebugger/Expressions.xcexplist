@@ -17,7 +17,16 @@
          contextName = "Terminal.draw(data:lineBuffer:):ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "data[idx ]">
+               value = "data[idx]">
+            </PersistentString>
+            <PersistentString
+               value = "Character(UnicodeScalar(data[idx]))">
+            </PersistentString>
+            <PersistentString
+               value = "String(decoding: data[s..&lt;e], as: UTF8.self)">
+            </PersistentString>
+            <PersistentString
+               value = "Character(UnicodeScalar(data[idx+1]))">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

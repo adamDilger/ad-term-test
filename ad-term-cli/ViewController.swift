@@ -20,12 +20,14 @@ let newline = Character("\n").asciiValue!;
 let carriagereturn = Character("\r").asciiValue!;
 let ESC = Character("\u{1b}").asciiValue!;
 let L_SQUARE = Character("[").asciiValue!;
+let ASC_BACKSLASH = Character("\\").asciiValue!;
 let ASC_SEMI_COLON = Character(";").asciiValue!;
 let ASC_J = Character("J").asciiValue!;
 let ASC_h = Character("h").asciiValue!;
 let ASC_H = Character("H").asciiValue!;
 let ASC_m = Character("m").asciiValue!;
 let ASC_l = Character("l").asciiValue!;
+let ASC_P = Character("P").asciiValue!;
 let ASC_QUESTION_MARK = Character("?").asciiValue!;
 let ASC_GREATER_THAN = Character(">").asciiValue!;
 let ASC_0 = Character("0").asciiValue!;
@@ -64,6 +66,8 @@ class Terminal {
             let s = line.start;
             let e = line.end;
             
+            print(String(decoding: data[s..<e], as: UTF8.self))
+            
             var idx = s;
             while idx < e {
                 let b = data[idx];
@@ -74,6 +78,22 @@ class Terminal {
                     if peek == L_SQUARE {
                         idx += 1;
                         self.readControlCode(data: data, idx: &idx, x: &x, y: &y);
+                    } else if peek == ASC_P {
+                        // xterm doesn't do anything with these... so ignore?
+                        idx += 1
+                        var p1 = idx + 1 < data.count ? data[idx + 1] : nil;
+                        var p2 = idx + 2 < data.count ? data[idx + 2] : nil;
+                        
+                        while !(p1 == ESC && p2 == ASC_BACKSLASH) {
+                            idx += 1
+                            p1 = idx + 1 < data.count ? data[idx + 1] : nil;
+                            p2 = idx + 2 < data.count ? data[idx + 2] : nil;
+                        }
+                        
+                        idx += 2 // skip over peeks
+                    } else {
+                        idx += 1;
+                        print("UNKNOWN ESCAPE CHAR: \(Character(UnicodeScalar(data[idx])))")
                     }
                 } else if b == newline {
                     x = 0;
@@ -110,6 +130,8 @@ class Terminal {
                 idx += 1;
             }
         }
+        
+        print("Curr: \(self.currentLineIndex)");
     }
     
     func isNumber(_ i: UInt8?) -> Bool {
@@ -147,6 +169,7 @@ class Terminal {
         
         var n: Int? = nil;
         var m: Int? = nil;
+
         if isNumber(peek) {
             n = self.consumeNumber(data: data, idx: &idx);
             peek = idx + 1 < data.count ? data[idx + 1] : nil;
@@ -221,9 +244,44 @@ class Terminal {
                     self.cells[i].char = nil;
                 }
             }
-        } else if peek == ASC_m {
-            // print("TODO: color [\(n ?? -1)m")
+        } else if peek == ASC_m && m == nil {
             idx += 1;
+            
+            let n = n ?? 0;
+            
+            switch (n) {
+            case 0: print("[\(n)m setting Normal (default)");
+            case 1: print("[\(n)m setting Bold");
+            case 4: print("[\(n)m setting Underlined");
+            case 30: print("[\(n)m Setting colour to Black")
+            case 31: print("[\(n)m Setting colour to Red")
+            case 32: print("[\(n)m Setting colour to Green")
+            case 33: print("[\(n)m Setting colour to Yellow")
+            case 34: print("[\(n)m Setting colour to Blue")
+            case 35: print("[\(n)m Setting colour to Magenta")
+            case 36: print("[\(n)m Setting colour to Cyan")
+            case 37: print("[\(n)m Setting colour to White")
+            case 39: print("[\(n)m Setting colour to default (original)")
+            case 40: print("[\(n)m Setting colour to Black")
+            case 41: print("[\(n)m Setting colour to Red")
+            case 42: print("[\(n)m Setting colour to Green")
+            case 43: print("[\(n)m Setting colour to Yellow")
+            case 44: print("[\(n)m Setting colour to Blue")
+            case 45: print("[\(n)m Setting colour to Magenta")
+            case 46: print("[\(n)m Setting colour to Cyan")
+            case 47: print("[\(n)m Setting colour to White")
+            default: print("TODO: color [\(n)m")
+            }
+        } else if peek == ASC_m && m != nil /* TODO: Properly check if "second" number is passed, maybe a 'has semicolon' flag */ {
+            idx += 1;
+            
+            let n = n ?? 0;
+            let m = m ?? 0;
+            
+            print("TODO: [\(n);\(m)m")
+        } else {
+            idx += 1;
+            print("----- UNKNOWN: [\(n ?? 0);\(m ?? 0)\(Character(UnicodeScalar(data[idx])))")
         }
     }
 }
