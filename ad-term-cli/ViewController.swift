@@ -26,8 +26,10 @@ let ASC_m = Character("m").asciiValue!;
 let ASC_l = Character("l").asciiValue!;
 let ASC_P = Character("P").asciiValue!;
 
+let ASC_BELL = Character("\u{7}").asciiValue!;
 let ASC_ESC = Character("\u{1b}").asciiValue!;
 let ASC_L_SQUARE = Character("[").asciiValue!;
+let ASC_R_SQUARE = Character("]").asciiValue!;
 let ASC_BACKSLASH = Character("\\").asciiValue!;
 let ASC_SEMI_COLON = Character(";").asciiValue!;
 let ASC_LESS_THAN = Character("<").asciiValue!;
@@ -96,6 +98,17 @@ class Terminal {
                         }
                         
                         idx += 2 // skip over peeks
+                    } else if peek == ASC_R_SQUARE {
+                        idx += 1
+                        var p1 = idx + 1 < data.count ? data[idx + 1] : nil;
+                        
+                        while p1 != ASC_BELL {
+                            idx += 1
+                            p1 = idx + 1 < data.count ? data[idx + 1] : nil;
+                        }
+                        
+                        idx += 1 // skip over peeks
+                        print("TODO: [");
                     } else {
                         idx += 1;
                         print("UNKNOWN ESCAPE CHAR: \(Character(UnicodeScalar(data[idx])))")
@@ -216,7 +229,7 @@ class Terminal {
             x = Int(m) - 1;
             y = Int(n) - 1;
             
-            self.currentLineIndex = y;
+            // self.currentLineIndex = y;
         } else if peek == ASC_J {
             var n: UInt16 = 0;
             if numbers.count > 0 { n = numbers[0] }
@@ -280,7 +293,7 @@ class Terminal {
             }
         } else {
             idx += 1;
-            print("----- UNKNOWN: \(Character(UnicodeScalar(data[idx])))")
+            print("----- UNKNOWN CSI: [\(Character(UnicodeScalar(data[idx])))")
         }
     }
 }

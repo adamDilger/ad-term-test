@@ -46,5 +46,13 @@
             </PersistentString>
          </PersistentStrings>
       </ContextState>
+      <ContextState
+         contextName = "TTY.keyDown(event:):TTY.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "&quot;\r&quot;.data(using: .utf8)!">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
    </ContextStates>
 </VariablesViewState>

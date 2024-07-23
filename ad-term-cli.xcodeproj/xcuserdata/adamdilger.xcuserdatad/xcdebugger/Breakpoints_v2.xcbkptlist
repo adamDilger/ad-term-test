@@ -7,49 +7,96 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8938B8A8-DA57-4271-9D27-DB858014BADD"
+            uuid = "68AAB768-7806-4172-BF6A-990E08B39294"
             shouldBeEnabled = "No"
-            condition = "n == 3 &amp;&amp; m == 1"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ad-term-cli/ViewController.swift"
+            filePath = "ad-term-cli/TTY.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
-            landmarkName = "readControlCode(data:idx:x:y:)"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "run(nc:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A1916821-6AD4-4EC2-AC53-D4C1D05B9DD2"
+            uuid = "61B5E10B-9172-47DC-B72F-02086787F29E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ad-term-cli/ViewController.swift"
+            filePath = "ad-term-cli/TTY.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "draw(data:lineBuffer:)"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "init()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4DA6B4EC-2D09-4191-A3BA-94FADE53BB6A"
+            uuid = "8553FB10-31FD-4B97-BBCC-2DED1F026664"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ad-term-cli/ViewController.swift"
+            filePath = "ad-term-cli/TTY.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
-            landmarkName = "draw(data:lineBuffer:)"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
+            landmarkName = "run(nc:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3BD792F2-F83A-4632-B9DA-CE10388D6A1D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ad-term-cli/TTY.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "run(nc:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "74D5401A-DFEE-40BA-A8C2-053BFF7FF16F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ad-term-cli/TTY.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DD7AA991-7C1E-4727-8DA1-3B640EC3C08C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ad-term-cli/TTY.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "init()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
