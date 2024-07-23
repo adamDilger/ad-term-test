@@ -20,6 +20,7 @@ let newline = Character("\n").asciiValue!;
 let carriagereturn = Character("\r").asciiValue!;
 
 let ASC_J = Character("J").asciiValue!;
+let ASC_K = Character("K").asciiValue!;
 let ASC_h = Character("h").asciiValue!;
 let ASC_H = Character("H").asciiValue!;
 let ASC_m = Character("m").asciiValue!;
@@ -48,10 +49,13 @@ class Terminal {
     var cells = Array<Cell>();
     var currentLineIndex = 0;
     
+    var alternateCells = Array<Cell>();
+    var alternateCurrentLineIndex = 0;
+    var alternateX = 0;
+    var alternateY = 0;
+    
     init() {
-        for _ in 0..<WIDTH*HEIGHT {
-            self.cells.append(Cell())
-        }
+        for _ in 0..<WIDTH*HEIGHT { self.cells.append(Cell()); }
     }
     
     func clearRow(idx: Int) {
@@ -114,12 +118,13 @@ class Terminal {
                         print("UNKNOWN ESCAPE CHAR: \(Character(UnicodeScalar(data[idx])))")
                     }
                 } else if b == newline {
-                    x = 0;
+                    x = 0; // TODO: needed?
                     if y + 1 == HEIGHT {
                         y = 0;
                     } else {
                         y += 1;
                     }
+                    
                     self.currentLineIndex += 1;
                     self.clearRow(idx: y);
                 } else if b == carriagereturn {
@@ -152,21 +157,11 @@ class Terminal {
         print("Curr: \(self.currentLineIndex)");
     }
     
-    func isNumber(_ i: UInt8?) -> Bool {
-        guard let i = i else { return false; }
-        return i >= ASC_0 && i <= ASC_9
-    }
-    
-    func consumeNumber(data: Data, idx: inout Int) -> Int {
-        let s = idx + 1;
-        while self.isNumber(data[idx + 1]) {
-            idx += 1;
-        }
+    func adjustedY(y: Int) -> Int {
+        if self.currentLineIndex < HEIGHT { return y }
         
-        let num = data[s...idx];
-        
-        // print("Parsed: " + String(decoding: num, as: Unicode.UTF8.self));
-        return Int(String(decoding: num, as: Unicode.UTF8.self))!
+        let ay = (self.currentLineIndex + (y - 1)) % HEIGHT;
+        return ay;
     }
     
     func readControlCode(data: Data, idx: inout Int, x: inout Int, y: inout Int) {
@@ -212,12 +207,67 @@ class Terminal {
         }
         
         if peek == ASC_h {
+            idx += 1;
+            
             var n: UInt16 = 1;
             if numbers.count > 0 && numbers[0] != 0 { n = numbers[0] }
             
-            print("\(questionMark ? "?" : "")\(n)h")
+            if n == 1049 {
+                self.alternateCells = self.cells;
+                self.alternateX = x;
+                self.alternateY = y;
+                self.alternateCurrentLineIndex = self.currentLineIndex;
+                
+                self.cells = Array();
+                for _ in 0..<WIDTH*HEIGHT { self.cells.append(Cell()); }
+                x = 0;
+                y = 0;
+                self.currentLineIndex = 0;
+                
+                print("Alternate Buffer: ON")
+            } else {
+                print("\(questionMark ? "?" : "")\(n)h")
+            }
+        } else if peek == ASC_l {
             idx += 1;
+            
+            var n: UInt16 = 1;
+            if numbers.count > 0 && numbers[0] != 0 { n = numbers[0] }
+            
+            if n == 1049 {
+                self.cells = self.alternateCells;
+                self.alternateCells = Array();
+                x = self.alternateX;
+                y = self.alternateY;
+                
+                self.currentLineIndex = self.alternateCurrentLineIndex;
+                self.alternateCurrentLineIndex = 0;
+                print("Alternate Buffer: OFF")
+            }
+        } else if peek == ASC_K {
+            idx += 1
+            
+            var n: UInt16 = 0;
+            if numbers.count > 0 && numbers[0] != 0 { n = numbers[0] }
+            
+            let ay = adjustedY(y: y)
+            
+            if n == 0 {
+                print("[\(n)K -- \(x) to WIDTH")
+                // If n is 0 (or missing), clear from cursor to the end of the line.
+                for c in x..<WIDTH { self.cells[c + (ay * WIDTH)].char = nil }
+            } else if n == 1 {
+                print("[\(n)K -- 0 to \(x)")
+                // If n is 1, clear from cursor to beginning of the line.
+                for c in 0..<idx { self.cells[c + (ay * WIDTH)].char = nil }
+            } else {
+                print("[\(n)K -- CLEAR")
+                // If n is 2, clear entire line. Cursor position does not change.
+                for c in 0..<WIDTH { self.cells[c + (ay * WIDTH)].char = nil }
+            }
         } else if peek == ASC_H {
+            idx += 1;
+            
             var n: UInt16 = 1;
             if numbers.count > 0 && numbers[0] != 0 { n = numbers[0] }
             
@@ -225,32 +275,29 @@ class Terminal {
             if numbers.count > 1 && numbers[1] != 0 { m = numbers[1] }
             
             print("\(n);\(m)H")
-            idx += 1;
+            
             x = Int(m) - 1;
-            y = Int(n) - 1;
+            y = adjustedY(y: Int(n) - 1);
             
             // self.currentLineIndex = y;
         } else if peek == ASC_J {
+            idx += 1;
+            
             var n: UInt16 = 0;
             if numbers.count > 0 { n = numbers[0] }
             
-            print("\(n)J")
-            idx += 1;
-            
+            // print("\(n)J")
             if n == 0 {
-                // If n is 0 (or missing), clear from cursor to end of screen
+                // If n is 0 (or missing), clear from cursor to end of screen.
                 print("TODO: // [0J")
             } else if n == 1 {
-                // clear from cursor to beginning of the screen
+                // If n is 1, clear from cursor to beginning of the screen.
                 print("TODO: // [1J")
-            } else if n == 2 {
-                //If n is 2, clear entire screen (and moves cursor to upper left on DOS ANSI.SYS)
-                print("TODO: // [2J")
+            } else  {
+                // If n is 2, clear entire screen
+                // If n is 3, clear entire screen and delete all lines saved in the scrollback buffer
+                print("TODO: // [\(n)J")
                 
-                for i in 0..<WIDTH*HEIGHT {
-                    self.cells[i].char = nil;
-                }
-            } else /* 3 */ {
                 for i in 0..<WIDTH*HEIGHT {
                     self.cells[i].char = nil;
                 }
@@ -340,10 +387,12 @@ class ViewController: NSViewController {
         self.terminal.draw(data: d.0, lineBuffer:  d.1)
         
         var out = Array<Character>();
-        var offset = 0; //startingRowIdx * WIDTH;
-        if (self.terminal.currentLineIndex > HEIGHT) {
-            offset = (self.terminal.currentLineIndex - HEIGHT + 1) * WIDTH;
-        }
+        
+        let lineOffset = self.terminal.currentLineIndex >= HEIGHT
+            ? (self.terminal.currentLineIndex % HEIGHT)
+            : 0;
+        
+        let offset = lineOffset * WIDTH;
         
         for i in 0..<HEIGHT {
             for j in 0..<WIDTH {
@@ -356,17 +405,17 @@ class ViewController: NSViewController {
         }
         
         
-        //        print("------------------------------------------------------------------" + String(currentLineIndex));
-        //        for i in 0..<HEIGHT {
-        //            var o = "";
-        //            for j in 0..<WIDTH {
-        //                guard let char = self.cells[j + (i * WIDTH)].char else { continue; }
-        //                o.append(char);
-        //            }
-        //
-        //            print(String(i) + "["+o+"]");
-        //        }
-        //        print("------------------------------------------------------------------");
+        print("------------------------------------------------------------------" + String(self.terminal.currentLineIndex % HEIGHT));
+        for i in 0..<HEIGHT {
+            var o = "";
+            for j in 0..<WIDTH {
+                let char = self.terminal.cells[j + (i * WIDTH)].char ?? " "
+                o.append(char);
+            }
+
+            print(String(i) + "|"+o+"|");
+        }
+        print("------------------------------------------------------------------");
         
         
         DispatchQueue.main.async { self.text?.cell?.stringValue = String(out); }
