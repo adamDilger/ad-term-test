@@ -31,39 +31,6 @@ class TTY {
         self.command = "";
         self.lines = [line(start: 0, end: 0)]
         self.task = Process()
-//        var masterFD: Int32 = 0
-//        masterFD = posix_openpt(O_RDWR)
-//        grantpt(masterFD)
-//        unlockpt(masterFD)
-//        self.masterFile = FileHandle.init(fileDescriptor: masterFD)
-//        let slavePath = String.init(cString: ptsname(masterFD))
-//        self.slaveFile = FileHandle.init(forUpdatingAtPath: slavePath)
-//        self.task!.executableURL = URL(fileURLWithPath: "/bin/bash")
-//        self.task!.arguments = ["-i"]
-//        self.task!.standardOutput = slaveFile
-//        self.task!.standardInput = slaveFile
-//        self.task!.standardError = slaveFile
-        
-        
-        // Setup the PTY handles
-        // var parentDescriptor: Int32 = 0
-        // var childDescriptor: Int32 = 0
-//        guard openpty(&parentDescriptor, &childDescriptor, nil, nil, nil) != -1 else {
-//          fatalError("Failed to spawn PTY")
-//        }
-        
-//        var parentDescriptor: UnsafeMutablePointer<Int32> = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
-//        var childDescriptor: UnsafeMutablePointer<Int32> = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
-//        var childName: UnsafeMutablePointer<CChar> = UnsafeMutablePointer<CChar>.allocate(capacity: 100)
-//        
-//        self.t = UnsafeMutablePointer<termios>.allocate(capacity: 1);
-//        self.ws = UnsafeMutablePointer<winsize>.allocate(capacity: 1);
-////        guard forkpty(parentDescriptor, &childName, t, ws) != -1 else {
-////            fatalError("Failed to spawn PTY")
-////        }
-//        guard openpty(parentDescriptor, childDescriptor, childName, &self.t.pointee, &self.ws.pointee) != -1 else {
-//            fatalError("Failed to spawn PTY")
-//        }
         
         var temp = Array<CChar>(repeating: 0, count: Int(PATH_MAX))
         var masterFD = Int32(-1)
@@ -79,10 +46,6 @@ class TTY {
         
         self.masterFile = FileHandle.init(fileDescriptor: masterFD)
         self.slaveFile = FileHandle.init(fileDescriptor: slaveFD)
-//       print(login_tty(childDescriptor));
-//        
-//        self.task!.executableURL = URL(fileURLWithPath: "/usr/bin/login")
-//        self.task!.arguments = ["-fpl", "adamdilger", "/bin/zsh", "-c", "/bin/sh"]
         
         self.task!.executableURL = URL(fileURLWithPath: "/bin/bash")
         self.task!.arguments = ["-i"]

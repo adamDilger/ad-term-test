@@ -13,6 +13,8 @@
 		926AE0152C467BB10064585E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 926AE0142C467BB10064585E /* Assets.xcassets */; };
 		926AE0182C467BB10064585E /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 926AE0172C467BB10064585E /* Base */; };
 		926AE0212C4683DE0064585E /* TTY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926AE0202C4683DE0064585E /* TTY.swift */; };
+		92FF9BB12C50B54900DCFF34 /* Terminal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92FF9BB02C50B54900DCFF34 /* Terminal.swift */; };
+		92FF9BB32C50B57100DCFF34 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92FF9BB22C50B57100DCFF34 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +27,8 @@
 		926AE0192C467BB10064585E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		926AE01A2C467BB10064585E /* ad-term-cli.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ad-term-cli.entitlements"; sourceTree = "<group>"; };
 		926AE0202C4683DE0064585E /* TTY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTY.swift; sourceTree = "<group>"; };
+		92FF9BB02C50B54900DCFF34 /* Terminal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Terminal.swift; sourceTree = "<group>"; };
+		92FF9BB22C50B57100DCFF34 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +69,8 @@
 				926AE0162C467BB10064585E /* Main.storyboard */,
 				926AE0192C467BB10064585E /* Info.plist */,
 				926AE01A2C467BB10064585E /* ad-term-cli.entitlements */,
+				92FF9BB02C50B54900DCFF34 /* Terminal.swift */,
+				92FF9BB22C50B57100DCFF34 /* Constants.swift */,
 			);
 			path = "ad-term-cli";
 			sourceTree = "<group>";
@@ -140,9 +146,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				926AE0112C467BB00064585E /* ViewController.swift in Sources */,
+				92FF9BB12C50B54900DCFF34 /* Terminal.swift in Sources */,
 				926AE0212C4683DE0064585E /* TTY.swift in Sources */,
 				926AE00F2C467BB00064585E /* AppDelegate.swift in Sources */,
 				926AE0132C467BB00064585E /* Document.swift in Sources */,
+				92FF9BB32C50B57100DCFF34 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
