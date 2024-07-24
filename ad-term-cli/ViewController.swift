@@ -9,20 +9,17 @@ import Cocoa
 
 class ViewController: NSViewController {
     var terminal: Terminal;
-    var tty: TTY;
     
     @IBOutlet var text: NSTextField?;
     
     required init?(coder: NSCoder) {
-        self.tty = TTY()
         self.terminal = Terminal();
         super.init(coder: coder)
-        
-        self.tty.run(nc: NotificationCenter.default)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.terminal.tty!.run()
         
         NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) {
             self.flagsChanged(with: $0)
@@ -34,20 +31,10 @@ class ViewController: NSViewController {
         }
         
         let nc = NotificationCenter.default
-        nc.addObserver(self, selector: #selector(userLoggedIn(_:)), name: Notification.Name("TerminalDataUpdate"), object: nil)
+        nc.addObserver(self, selector: #selector(terminalDataUpdate(_:)), name: Notification.Name("TerminalDataUpdate"), object: nil)
     }
     
-    override var representedObject: Any? {
-        didSet {
-            // Update the view, if already loaded.
-        }
-    }
-    
-    @objc func userLoggedIn(_ notification: Notification) {
-        let d = notification.object! as! (Data, Array<line>);
-        
-        self.terminal.draw(data: d.0, lineBuffer:  d.1)
-        
+    @objc func terminalDataUpdate(_ notification: Notification) {
         var out = Array<Character>();
         
         let lineOffset = self.terminal.currentLineIndex >= HEIGHT
@@ -81,17 +68,15 @@ class ViewController: NSViewController {
         }
         print("------------------------------------------------------------------");
         
-        
         DispatchQueue.main.async { self.text?.cell?.stringValue = String(out); }
     }
     
     override func keyDown(with event: NSEvent) {
         super.keyDown(with: event)
-        tty.keyDown(event: event)
+        self.terminal.tty!.keyDown(event: event)
     }
     
     override var acceptsFirstResponder: Bool {
         return true
     }
 }
-

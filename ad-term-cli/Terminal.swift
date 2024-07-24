@@ -14,7 +14,13 @@ struct Cell {
     var char: Character?;
 }
 
+struct line {
+    var start: Int;
+    var end: Int;
+}
+
 class Terminal {
+    var tty: TTY?;
     var cells = Array<Cell>();
     var currentLineIndex = 0;
     
@@ -22,9 +28,16 @@ class Terminal {
     var alternateCurrentLineIndex = 0;
     var alternateX = 0;
     var alternateY = 0;
+
+    var buffer: Data
+    var lines: Array<line>;
     
     init() {
+        self.buffer = Data()
+        self.lines = [line(start: 0, end: 0)]
         for _ in 0..<WIDTH*HEIGHT { self.cells.append(Cell()); }
+        
+        self.tty = TTY(self);
     }
     
     func clearRow(y: Int) {
@@ -36,7 +49,7 @@ class Terminal {
         }
     }
     
-    func draw(data: Data, lineBuffer: Array<line>) {
+    func draw() {
         var x = 0;
         var y = 0;
         self.currentLineIndex = 0;
@@ -45,7 +58,7 @@ class Terminal {
             self.clearRow(y: i) // needed?
         }
         
-        for line in lineBuffer {
+        for line in self.lines {
             let s = line.start;
             let e = line.end;
             
@@ -53,41 +66,41 @@ class Terminal {
             
             var idx = s;
             while idx < e {
-                let b = data[idx];
+                let b = self.buffer[idx];
                 let bc = Character(UnicodeScalar(b))
                 
                 if b == ASC_ESC {
-                    let peek = data[idx + 1];
+                    let peek = self.buffer[idx + 1];
                     if peek == ASC_L_SQUARE {
                         idx += 1;
-                        self.readControlCode(data: data, idx: &idx, x: &x, y: &y);
+                        self.readControlCode(idx: &idx, x: &x, y: &y);
                     } else if peek == ASC_P {
                         // xterm doesn't do anything with these... so ignore?
                         idx += 1
-                        var p1 = idx + 1 < data.count ? data[idx + 1] : nil;
-                        var p2 = idx + 2 < data.count ? data[idx + 2] : nil;
+                        var p1 = idx + 1 < self.buffer.count ? self.buffer[idx + 1] : nil;
+                        var p2 = idx + 2 < self.buffer.count ? self.buffer[idx + 2] : nil;
                         
                         while !(p1 == ASC_ESC && p2 == ASC_BACKSLASH) {
                             idx += 1
-                            p1 = idx + 1 < data.count ? data[idx + 1] : nil;
-                            p2 = idx + 2 < data.count ? data[idx + 2] : nil;
+                            p1 = idx + 1 < self.buffer.count ? self.buffer[idx + 1] : nil;
+                            p2 = idx + 2 < self.buffer.count ? self.buffer[idx + 2] : nil;
                         }
                         
                         idx += 2 // skip over peeks
                     } else if peek == ASC_R_SQUARE {
                         idx += 1
-                        var p1 = idx + 1 < data.count ? data[idx + 1] : nil;
+                        var p1 = idx + 1 < self.buffer.count ? self.buffer[idx + 1] : nil;
                         
                         while p1 != ASC_BELL {
                             idx += 1
-                            p1 = idx + 1 < data.count ? data[idx + 1] : nil;
+                            p1 = idx + 1 < self.buffer.count ? self.buffer[idx + 1] : nil;
                         }
                         
                         idx += 1 // skip over peeks
                         // print("TODO: [");
                     } else {
                         idx += 1;
-                        print("UNKNOWN ESCAPE CHAR: \(Character(UnicodeScalar(data[idx])))")
+                        print("UNKNOWN ESCAPE CHAR: \(Character(UnicodeScalar(self.buffer[idx])))")
                     }
                 } else if b == newline {
                     x = 0; // TODO: needed?
@@ -125,6 +138,9 @@ class Terminal {
         
         let ay = self.getAdjustedY(y: y);
         self.cells[x + (ay * WIDTH)].char = "█" // cursor
+        
+        let nc = NotificationCenter.default
+        nc.post(name: Notification.Name("TerminalDataUpdate"), object: nil)
     }
     
     func getAdjustedY(y: Int) -> Int {
@@ -136,8 +152,8 @@ class Terminal {
         return ay;
     }
     
-    func readControlCode(data: Data, idx: inout Int, x: inout Int, y: inout Int) {
-        var peek: UInt8? = data[idx + 1];
+    func readControlCode(idx: inout Int, x: inout Int, y: inout Int) {
+        var peek: UInt8? = self.buffer[idx + 1];
         
         var questionMark = false;
 //        var greaterThan = false;
@@ -154,7 +170,7 @@ class Terminal {
             }
             
             idx += 1;
-            peek = idx + 1 < data.count ? data[idx + 1] : nil;
+            peek = idx + 1 < self.buffer.count ? self.buffer[idx + 1] : nil;
         }
         
         // we've parsed some rando characters, now parse out the number array
@@ -168,13 +184,13 @@ class Terminal {
                 numbers[numbers.count - 1] += UInt16(peek! - ASC_0)
                 
                 idx += 1;
-                peek = idx + 1 < data.count ? data[idx + 1] : nil;
+                peek = idx + 1 < self.buffer.count ? self.buffer[idx + 1] : nil;
             }
             
             if peek == ASC_SEMI_COLON {
                 numbers.append(0);
                 idx += 1;
-                peek = idx + 1 < data.count ? data[idx + 1] : nil;
+                peek = idx + 1 < self.buffer.count ? self.buffer[idx + 1] : nil;
             }
         }
         
@@ -332,7 +348,7 @@ class Terminal {
             print("TODO: [\(n);\(m)t")
         }else {
             idx += 1;
-            print("----- UNKNOWN CSI: [\(Character(UnicodeScalar(data[idx])))")
+            print("----- UNKNOWN CSI: [\(Character(UnicodeScalar(self.buffer[idx])))")
         }
     }
 }
