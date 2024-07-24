@@ -25,6 +25,8 @@ let ASC_h = Character("h").asciiValue!;
 let ASC_H = Character("H").asciiValue!;
 let ASC_m = Character("m").asciiValue!;
 let ASC_l = Character("l").asciiValue!;
+let ASC_r = Character("r").asciiValue!;
+let ASC_t = Character("t").asciiValue!;
 let ASC_P = Character("P").asciiValue!;
 
 let ASC_BELL = Character("\u{7}").asciiValue!;
@@ -58,8 +60,11 @@ class Terminal {
         for _ in 0..<WIDTH*HEIGHT { self.cells.append(Cell()); }
     }
     
-    func clearRow(idx: Int) {
-        for i in (WIDTH*idx)..<(WIDTH*(idx+1)) {
+    func clearRow(y: Int) {
+        let adjustedY = getAdjustedY(y: y);
+        print("Clearing Row: cu: [\(self.currentLineIndex)] | \(y) : \(adjustedY)")
+        
+        for i in (WIDTH*adjustedY)..<(WIDTH*(adjustedY+1)) {
             self.cells[i].char = nil;
         }
     }
@@ -70,14 +75,14 @@ class Terminal {
         self.currentLineIndex = 0;
         
         for i in 0..<HEIGHT {
-            self.clearRow(idx: i) // needed?
+            self.clearRow(y: i) // needed?
         }
         
         for line in lineBuffer {
             let s = line.start;
             let e = line.end;
             
-            print(String(decoding: data[s..<e], as: UTF8.self))
+            // print(String(decoding: data[s..<e], as: UTF8.self))
             
             var idx = s;
             while idx < e {
@@ -112,39 +117,36 @@ class Terminal {
                         }
                         
                         idx += 1 // skip over peeks
-                        print("TODO: [");
+                        // print("TODO: [");
                     } else {
                         idx += 1;
                         print("UNKNOWN ESCAPE CHAR: \(Character(UnicodeScalar(data[idx])))")
                     }
                 } else if b == newline {
                     x = 0; // TODO: needed?
-                    if y + 1 == HEIGHT {
-                        y = 0;
-                    } else {
+                    if y + 1 < HEIGHT {
                         y += 1;
                     }
                     
                     self.currentLineIndex += 1;
-                    self.clearRow(idx: y);
+                    self.clearRow(y: y);
                 } else if b == carriagereturn {
                     x = 0;
                 } else if b == backspace {
                     x -= 1;
                 } else {
-                    self.cells[x + (y * WIDTH)].char = bc
+                    let ay = self.getAdjustedY(y: y);
+                    self.cells[x + (ay * WIDTH)].char = bc
                     
                     if x + 1 == WIDTH {
                         x = 0;
                         
-                        if y + 1 == HEIGHT {
-                            y = 0;
-                        } else {
+                        if y + 1 < HEIGHT {
                             y += 1;
                         }
                         
-                        self.clearRow(idx: y);
                         self.currentLineIndex += 1;
+                        self.clearRow(y: y);
                     } else {
                         x += 1;
                     }
@@ -154,13 +156,16 @@ class Terminal {
             }
         }
         
-        print("Curr: \(self.currentLineIndex)");
+        let ay = self.getAdjustedY(y: y);
+        self.cells[x + (ay * WIDTH)].char = "█" // cursor
     }
     
-    func adjustedY(y: Int) -> Int {
-        if self.currentLineIndex < HEIGHT { return y }
+    func getAdjustedY(y: Int) -> Int {
+        if self.currentLineIndex < HEIGHT {
+            return y
+        }
         
-        let ay = (self.currentLineIndex + (y - 1)) % HEIGHT;
+        let ay = (self.currentLineIndex + y) % HEIGHT;
         return ay;
     }
     
@@ -168,16 +173,16 @@ class Terminal {
         var peek: UInt8? = data[idx + 1];
         
         var questionMark = false;
-        var greaterThan = false;
-        var lessThan = false;
-        var equals = false;
+//        var greaterThan = false;
+//        var lessThan = false;
+//        var equals = false;
         
         while peek! >= ASC_LESS_THAN && peek! <= ASC_QUESTION_MARK {
             switch peek {
             case ASC_QUESTION_MARK: questionMark = true;
-            case ASC_GREATER_THAN: greaterThan = true;
-            case ASC_LESS_THAN: lessThan = true;
-            case ASC_EQUALS: equals = true;
+//            case ASC_GREATER_THAN: greaterThan = true;
+//            case ASC_LESS_THAN: lessThan = true;
+//            case ASC_EQUALS: equals = true;
             default: print("UNKNOWN: \(peek!)");
             }
             
@@ -250,7 +255,7 @@ class Terminal {
             var n: UInt16 = 0;
             if numbers.count > 0 && numbers[0] != 0 { n = numbers[0] }
             
-            let ay = adjustedY(y: y)
+            let ay = getAdjustedY(y: y)
             
             if n == 0 {
                 print("[\(n)K -- \(x) to WIDTH")
@@ -277,7 +282,7 @@ class Terminal {
             print("\(n);\(m)H")
             
             x = Int(m) - 1;
-            y = adjustedY(y: Int(n) - 1);
+            y = getAdjustedY(y: Int(n) - 1);
             
             // self.currentLineIndex = y;
         } else if peek == ASC_J {
@@ -338,7 +343,27 @@ class Terminal {
             case 47: print("[\(n)m Setting colour to White")
             default: print("TODO: color [\(n)m")
             }
-        } else {
+        } else if peek == ASC_r {
+            idx += 1;
+            
+            var n: UInt16 = 0;
+            if numbers.count > 0 { n = numbers[0] }
+            
+            var m: UInt16 = 0;
+            if numbers.count > 1 { m = numbers[1] }
+            
+            print("TODO: [\(n);\(m)r")
+        } else if peek == ASC_t {
+            idx += 1;
+            
+            var n: UInt16 = 0;
+            if numbers.count > 0 { n = numbers[0] }
+            
+            var m: UInt16 = 0;
+            if numbers.count > 1 { m = numbers[1] }
+            
+            print("TODO: [\(n);\(m)t")
+        }else {
             idx += 1;
             print("----- UNKNOWN CSI: [\(Character(UnicodeScalar(data[idx])))")
         }
@@ -394,16 +419,18 @@ class ViewController: NSViewController {
         
         let offset = lineOffset * WIDTH;
         
+        out += "   |" + String(repeating: "-", count: WIDTH) + "|\n";
         for i in 0..<HEIGHT {
+            out += String(format: "%02d |", i)
             for j in 0..<WIDTH {
                 let idx = (j + offset + (i*WIDTH)) % (WIDTH*HEIGHT);
                 let char = self.terminal.cells[idx].char ?? " ";
                 out.append(char);
             }
             
-            out.append(Character("\n"));
+            out += "|\n";
         }
-        
+        out += "   |" + String(repeating: "-", count: WIDTH) + "|\n";
         
         print("------------------------------------------------------------------" + String(self.terminal.currentLineIndex % HEIGHT));
         for i in 0..<HEIGHT {
